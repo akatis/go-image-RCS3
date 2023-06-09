@@ -1,4 +1,4 @@
-#GO IMAGE PROCCESS
+# GO IMAGE PROCCESS
 ## What the purpose of this package?
 The purpose of this package is to _image resizing_, _compressing_ processes and _adding to S3 Bucket_.
 
