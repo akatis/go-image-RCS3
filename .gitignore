@@ -1,0 +1,5 @@
+.DS_Store
+.idea/
+test/
+const.go
+image_model.go
