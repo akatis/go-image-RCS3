@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func ImgCompress(width, height uint, imgBase64 string) (string, error) {
+func ImgCompress(width, height uint, quality int, imgBase64 string) (string, error) {
 
 	index := strings.Index(imgBase64, ";base64,")
 	if index < 0 {
@@ -35,7 +35,7 @@ func ImgCompress(width, height uint, imgBase64 string) (string, error) {
 
 		resizedImage := resize.Resize(width, height, img, resize.Lanczos3)
 		buf := new(bytes.Buffer)
-		if err = jpeg.Encode(buf, resizedImage, &jpeg.Options{Quality: 50}); err != nil {
+		if err = jpeg.Encode(buf, resizedImage, &jpeg.Options{Quality: quality}); err != nil {
 			return "", err
 		}
 
@@ -52,7 +52,7 @@ func ImgCompress(width, height uint, imgBase64 string) (string, error) {
 		}
 		resizedImage := resize.Resize(width, height, img, resize.Lanczos3)
 		buf := new(bytes.Buffer)
-		if err = jpeg.Encode(buf, resizedImage, &jpeg.Options{Quality: 50}); err != nil {
+		if err = jpeg.Encode(buf, resizedImage, &jpeg.Options{Quality: quality}); err != nil {
 			return "", err
 		}
 
