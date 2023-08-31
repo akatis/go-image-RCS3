@@ -94,3 +94,28 @@ func (s3Config *S3Config) AddS3(imageFile, imagePath string) error {
 
 	return nil
 }
+
+// -------DELETE FROM S3--------
+func (s3Config *S3Config) DeleteS3(imagePath string) error {
+	//START AWS SESSION
+	sess, err := session.NewSession(&aws.Config{
+		Region:      aws.String(s3Config.S3_REGION),
+		Credentials: credentials.NewStaticCredentials(s3Config.S3_ACCESS_KEY, s3Config.S3_SECRET_KEY, ""),
+	})
+	if err != nil {
+		return err
+	}
+
+	//S3 CLIENT
+	s3Client := s3.New(sess)
+
+	_, err = s3Client.DeleteObject(&s3.DeleteObjectInput{
+		Bucket: aws.String(s3Config.S3_BUCKET),
+		Key:    aws.String(s3Config.S3_OBJECT_KEY + imagePath),
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
