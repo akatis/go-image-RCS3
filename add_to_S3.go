@@ -90,6 +90,17 @@ func (s3Config *S3Config) AddS3(imageFile, imagePath string) error {
 		if err != nil {
 			return err
 		}
+	case "webp":
+		_, err = s3Client.PutObject(&s3.PutObjectInput{
+			Bucket:      aws.String(s3Config.S3_BUCKET),
+			Key:         aws.String(s3Config.S3_OBJECT_KEY + imagePath),
+			Body:        bytes.NewReader(imageBase64),
+			ContentType: aws.String("image/webp"),
+		})
+		if err != nil {
+			return err
+		}
+
 	}
 
 	return nil
