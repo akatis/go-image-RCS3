@@ -61,6 +61,19 @@ func ImgCompress(width, height uint, quality int, imgBase64 string) (string, err
 
 		//newImage = "data:image/jpeg;base64," + compressedImageBase64
 		newImage = compressedImageBase64
+	case "webp":
+		img, _, err := image.Decode(strings.NewReader(string(unbasedImage)))
+		if err != nil {
+			return "", err
+		}
+		resizedImage := resize.Resize(width, height, img, resize.Lanczos3)
+		buf := new(bytes.Buffer)
+		if err = jpeg.Encode(buf, resizedImage, &jpeg.Options{Quality: quality}); err != nil {
+			return "", err
+		}
+
+		newImage = buf.String()
 	}
+
 	return newImage, nil
 }
