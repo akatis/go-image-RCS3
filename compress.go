@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"github.com/nfnt/resize"
+	"golang.org/x/image/webp"
 	"image"
 	"image/jpeg"
 	"image/png"
@@ -62,17 +63,19 @@ func ImgCompress(width, height uint, quality int, imgBase64 string) (string, err
 		//newImage = "data:image/jpeg;base64," + compressedImageBase64
 		newImage = compressedImageBase64
 	case "webp":
-		img, _, err := image.Decode(strings.NewReader(string(unbasedImage)))
+		img, err := webp.Decode(bytes.NewReader(unbasedImage))
 		if err != nil {
 			return "", err
 		}
 		resizedImage := resize.Resize(width, height, img, resize.Lanczos3)
-		buf := new(bytes.Buffer)
-		if err = jpeg.Encode(buf, resizedImage, &jpeg.Options{Quality: quality}); err != nil {
+
+		var buf bytes.Buffer
+		if err = jpeg.Encode(&buf, resizedImage, nil); err != nil {
 			return "", err
 		}
+		compressedImageBase64 := base64.StdEncoding.EncodeToString(buf.Bytes())
 
-		newImage = buf.String()
+		newImage = compressedImageBase64
 	}
 
 	return newImage, nil
