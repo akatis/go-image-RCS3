@@ -76,6 +76,8 @@ func ImgCompress(width, height uint, quality int, imgBase64 string) (string, err
 		compressedImageBase64 := base64.StdEncoding.EncodeToString(buf.Bytes())
 
 		newImage = compressedImageBase64
+	default:
+		err = errors.New("invalid extension")
 	}
 
 	return newImage, nil

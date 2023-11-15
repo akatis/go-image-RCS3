@@ -3,6 +3,7 @@ package go_image_RCS3
 import (
 	"bytes"
 	"encoding/base64"
+	"errors"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -102,7 +103,8 @@ func (s3Config *S3Config) AddS3(imageFile, imagePath string) error {
 		if err != nil {
 			return err
 		}
-
+	default:
+		err = errors.New("invalid extension")
 	}
 
 	return nil
