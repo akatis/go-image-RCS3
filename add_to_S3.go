@@ -24,6 +24,8 @@ func New(config *S3Config) *S3Config {
 }
 
 func (s3Config *S3Config) AddS3(imageFile, imagePath string) error {
+	var err error
+
 	//START AWS SESSION
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String(s3Config.S3_REGION),
@@ -107,7 +109,7 @@ func (s3Config *S3Config) AddS3(imageFile, imagePath string) error {
 		err = errors.New("invalid extension")
 	}
 
-	return nil
+	return err
 }
 
 // -------DELETE FROM S3--------

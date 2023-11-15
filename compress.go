@@ -14,6 +14,8 @@ import (
 
 func ImgCompress(width, height uint, quality int, imgBase64 string) (string, error) {
 
+	var err error
+
 	index := strings.Index(imgBase64, ";base64,")
 	if index < 0 {
 		return "", errors.New("Invalid image")
@@ -80,5 +82,5 @@ func ImgCompress(width, height uint, quality int, imgBase64 string) (string, err
 		err = errors.New("invalid extension")
 	}
 
-	return newImage, nil
+	return newImage, err
 }
